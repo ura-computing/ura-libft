@@ -1,0 +1,170 @@
+fn isalpha(c i32) i32:
+    return ((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z')) as i32
+
+fn isdigit(c i32) i32:
+    return (c >= '0' and c <= '9') as i32
+
+fn isalnum(c i32) i32:
+    return (isalpha(c) != 0 or isdigit(c) != 0) as i32
+
+fn isascii(c i32) i32:
+    return (c >= 0 and c <= 127) as i32
+
+fn isprint(c i32) i32:
+    return (c >= 32 and c <= 126) as i32
+
+fn strlen(s char[]) u64:
+    i u64 = 0
+    while s[i] != '\0':
+        i += 1
+    return i
+
+fn memset(b char[], c i32, len u64) char[]:
+    i u64 = 0
+    while i < len:
+        b[i] = c as char
+        i += 1
+    return b
+
+fn bzero(s char[], n u64):
+    memset(s, 0, n)
+
+fn memcpy(dst char[], src char[], n u64) char[]:
+    if dst == null and src == null:
+        return dst
+    i u64 = 0
+    while i < n:
+        dst[i] = src[i]
+        i += 1
+    return dst
+
+fn memmove(dst char[], src char[], len u64) char[]:
+    if dst == null and src == null:
+        return dst
+    tmp char[] = new<char>((len + 1) as i32)
+    memcpy(tmp, src, len)
+    memcpy(dst, tmp, len)
+    free<char>(tmp)
+    return dst
+
+fn strlcpy(dst char[], src char[], dstsize u64) u64:
+    length u64 = strlen(src)
+    if dstsize == 0:
+        return length
+    i u64 = 0
+    while src[i] != '\0' and i < dstsize - 1:
+        dst[i] = src[i]
+        i += 1
+    dst[i] = '\0'
+    return length
+
+fn strlcat(dst char[], src char[], dstsize u64) u64:
+    dst_len u64 = 0
+    while dst_len < dstsize and dst[dst_len] != '\0':
+        dst_len += 1
+    src_len u64 = strlen(src)
+    if dst_len == dstsize:
+        return dstsize + src_len
+    i u64 = 0
+    j u64 = dst_len
+    while src[i] != '\0' and j < dstsize - 1:
+        dst[j] = src[i]
+        i += 1
+        j += 1
+    dst[j] = '\0'
+    return dst_len + src_len
+
+fn toupper(c i32) i32:
+    if c >= 'a' and c <= 'z':
+        return c - 32
+    return c
+
+fn tolower(c i32) i32:
+    if c >= 'A' and c <= 'Z':
+        return c + 32
+    return c
+
+fn strchr(s char[], c i32) char[]:
+    i u64 = 0
+    while True:
+        if s[i] == c as char:
+            return &s[i] as char[]
+        if s[i] == '\0':
+            return null
+        i += 1
+    return null
+
+fn strrchr(s char[], c i32) char[]:
+    found char[] = null
+    i u64 = 0
+    while True:
+        if s[i] == c as char:
+            found = &s[i] as char[]
+        if s[i] == '\0':
+            return found
+        i += 1
+    return found
+
+fn strncmp(s1 char[], s2 char[], n u64) i32:
+    i u64 = 0
+    while i < n and s1[i] != '\0' and s1[i] == s2[i]:
+        i += 1
+    if i == n:
+        return 0
+    return (s1[i] as u8) as i32 - (s2[i] as u8) as i32
+
+fn memchr(s char[], c i32, n u64) char[]:
+    i u64 = 0
+    while i < n:
+        if s[i] == c as char:
+            return &s[i] as char[]
+        i += 1
+    return null
+
+fn memcmp(s1 char[], s2 char[], n u64) i32:
+    i u64 = 0
+    while i < n:
+        if s1[i] != s2[i]:
+            return (s1[i] as u8) as i32 - (s2[i] as u8) as i32
+        i += 1
+    return 0
+
+fn strnstr(haystack char[], needle char[], len u64) char[]:
+    if needle[0] == '\0':
+        return haystack
+    n u64 = strlen(needle)
+    i u64 = 0
+    while haystack[i] != '\0' and i + n <= len:
+        if strncmp(&haystack[i] as char[], needle, n) == 0:
+            return &haystack[i] as char[]
+        i += 1
+    return null
+
+fn atoi(str char[]) i32:
+    i u64 = 0
+    while str[i] == ' ' or (str[i] >= '\t' and str[i] <= '\r'):
+        i += 1
+    sign i32 = 1
+    if str[i] == '-' or str[i] == '+':
+        if str[i] == '-':
+            sign = -1
+        i += 1
+    n i32 = 0
+    while isdigit(str[i] as i32) != 0:
+        n = n * 10 + (str[i] - '0') as i32
+        i += 1
+    return n * sign
+
+fn calloc(count u64, size u64) char[]:
+    total u64 = count * size
+    if total == 0:
+        total = 1
+    res char[] = new<char>(total as i32)
+    bzero(res, total)
+    return res
+
+fn strdup(s1 char[]) char[]:
+    n u64 = strlen(s1)
+    res char[] = new<char>((n + 1) as i32)
+    memcpy(res, s1, n + 1)
+    return res

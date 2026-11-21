@@ -1,0 +1,95 @@
+fn substr(s char[], start u32, len u64) char[]:
+    size u64 = strlen(s)
+    first u64 = start as u64
+    if first >= size:
+        return strdup("")
+    count u64 = len
+    if count > size - first:
+        count = size - first
+    res char[] = new<char>((count + 1) as i32)
+    strlcpy(res, &s[first] as char[], count + 1)
+    return res
+
+fn strjoin(s1 char[], s2 char[]) char[]:
+    len1 u64 = strlen(s1)
+    len2 u64 = strlen(s2)
+    res char[] = new<char>((len1 + len2 + 1) as i32)
+    memcpy(res, s1, len1)
+    memcpy(&res[len1] as char[], s2, len2 + 1)
+    return res
+
+fn strtrim(s1 char[], set char[]) char[]:
+    start u64 = 0
+    while s1[start] != '\0' and strchr(set, s1[start] as i32) != null:
+        start += 1
+    end u64 = strlen(s1)
+    while end > start and strchr(set, s1[end - 1] as i32) != null:
+        end -= 1
+    return substr(s1, start as u32, end - start)
+
+fn count_words(s char[], c char) u64:
+    count u64 = 0
+    i u64 = 0
+    while s[i] != '\0':
+        is_start bool = s[i] != c and (i == 0 or s[i - 1] == c)
+        if is_start:
+            count += 1
+        i += 1
+    return count
+
+fn split(s char[], c char) char[][]:
+    words u64 = count_words(s, c)
+    res char[][] = new<char[]>((words + 1) as i32)
+    i u64 = 0
+    w u64 = 0
+    while w < words:
+        while s[i] == c:
+            i += 1
+        start u64 = i
+        while s[i] != '\0' and s[i] != c:
+            i += 1
+        res[w] = substr(s, start as u32, i - start)
+        w += 1
+    res[words] = null
+    return res
+
+fn itoa(n i32) char[]:
+    value i64 = n as i64
+    digits i32 = 1
+    if value < 0:
+        digits += 1
+    rest i64 = value
+    while rest >= 10 or rest <= -10:
+        rest /= 10
+        digits += 1
+    res char[] = new<char>(digits + 1)
+    if value < 0:
+        res[0] = '-'
+        value = 0 - value
+    i i32 = digits - 1
+    while True:
+        res[i] = (value % 10 + 48) as char
+        value /= 10
+        i -= 1
+        if value == 0:
+            break
+    return res
+
+fn putchar_fd(c char, fd i32):
+    write(fd, &c as char[], 1)
+
+fn putstr_fd(s char[], fd i32):
+    write(fd, s, strlen(s) as i64)
+
+fn putendl_fd(s char[], fd i32):
+    putstr_fd(s, fd)
+    putchar_fd('\n', fd)
+
+fn putnbr_fd(n i32, fd i32):
+    value i64 = n as i64
+    if value < 0:
+        putchar_fd('-', fd)
+        value = 0 - value
+    if value >= 10:
+        putnbr_fd((value / 10) as i32, fd)
+    putchar_fd((value % 10 + 48) as char, fd)

@@ -1,0 +1,58 @@
+use "../libft"
+
+fn part1():
+    io::out($"isalpha {ft::isalpha('a')} {ft::isalpha('1')}\n")
+    io::out($"isdigit {ft::isdigit('0')} {ft::isdigit('a')}\n")
+    io::out($"isalnum {ft::isalnum('Z')} {ft::isalnum('?')}\n")
+    io::out($"isascii {ft::isascii(127)} {ft::isascii(200)}\n")
+    io::out($"isprint {ft::isprint(' ')} {ft::isprint(10)}\n")
+    io::out($"strlen {ft::strlen("hello")}\n")
+
+    buf char[] = ft::calloc(16, 1)
+    ft::memset(buf, 'x', 3)
+    io::out($"memset {buf}\n")
+    ft::bzero(buf, 16)
+    ft::memcpy(buf, "abcdef", 6)
+    io::out($"memcpy {buf}\n")
+    ft::memmove(&buf[2] as char[], buf, 4)
+    io::out($"memmove {buf}\n")
+
+    dst char[] = ft::calloc(10, 1)
+    io::out($"strlcpy {ft::strlcpy(dst, "hello", 4)} {dst}\n")
+    io::out($"strlcat {ft::strlcat(dst, "XYZ", 10)} {dst}\n")
+
+    io::out($"toupper {ft::toupper('a') as char} tolower {ft::tolower('Q') as char}\n")
+    io::out($"strchr {ft::strchr("hello", 'l')}\n")
+    io::out($"strrchr {ft::strrchr("hello", 'l')}\n")
+    io::out($"strchr none {ft::strchr("hello", 'z') == null}\n")
+    io::out($"strncmp {ft::strncmp("abd", "abc", 2)} {ft::strncmp("abd", "abc", 3)}\n")
+    io::out($"memchr {ft::memchr("hello", 'e', 5)}\n")
+    io::out($"memcmp {ft::memcmp("abc", "abd", 3)}\n")
+    io::out($"strnstr {ft::strnstr("hello world", "wor", 11)}\n")
+    io::out($"strnstr none {ft::strnstr("hello world", "wor", 7) == null}\n")
+    io::out($"atoi {ft::atoi("  -42abc")} {ft::atoi("+7")}\n")
+    io::out($"strdup {ft::strdup("copy")}\n")
+    free<char>(buf)
+    free<char>(dst)
+
+fn part2():
+    io::out($"substr {ft::substr("hello world", 6, 5)}\n")
+    io::out($"strjoin {ft::strjoin("foo", "bar")}\n")
+    io::out($"strtrim [{ft::strtrim("  xx hi xx  ", " x")}]\n")
+    words char[][] = ft::split("  one two   three ", ' ')
+    i i32 = 0
+    while words[i] != null:
+        io::out($"split {words[i]}\n")
+        i += 1
+    io::out($"itoa {ft::itoa(-2147483648)} {ft::itoa(0)} {ft::itoa(123)}\n")
+    ft::putchar_fd('c', 1)
+    ft::putchar_fd('\n', 1)
+    ft::putstr_fd("putstr", 1)
+    ft::putendl_fd(" putendl", 1)
+    ft::putnbr_fd(-2147483648, 1)
+    ft::putchar_fd('\n', 1)
+
+fn main() i32:
+    part1()
+    part2()
+    return 0
