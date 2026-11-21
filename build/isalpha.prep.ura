@@ -3,8 +3,8 @@ fn isalpha(c char) bool:
 
 fn main() int:
    if isalpha('1'):
-      output("is alpha\n")
+      io::out("is alpha\n")
    else:
-      output("is not alpha\n")
+      io::out("is not alpha\n")
    return 0
 

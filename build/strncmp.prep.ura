@@ -62,6 +62,6 @@ fn strncmp(left chars, right chars, n int) int:
 
 fn main() int:
    len int = strncmp("abd", "abc", 4)
-   output(len, "\n")
+   io::out($"{len}\n")
    return 0
 

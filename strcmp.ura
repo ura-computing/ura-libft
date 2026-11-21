@@ -8,4 +8,4 @@ fn strcmp(left chars, right chars) int:
 
 main():
     len int = strcmp("d", "a")
-    output("<", len, ">\n")
+    io::out($"<{len}>\n")

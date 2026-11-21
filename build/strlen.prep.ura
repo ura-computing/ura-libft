@@ -6,6 +6,6 @@ fn strlen(str chars) int:
 
 fn main() int:
    len int = strlen("abc")
-   output("<", len, ">\n")
+   io::out($"<{len}>\n")
    return 0
 

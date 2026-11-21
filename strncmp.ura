@@ -12,4 +12,4 @@ fn strncmp(left chars, right chars, n int) int:
 
 main():
     len int = strncmp("abd", "abc", 4)
-    output(len, "\n")
+    io::out($"{len}\n")

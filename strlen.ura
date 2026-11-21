@@ -8,4 +8,4 @@ fn strlen(str chars) int:
 
 main():
     len int = strlen("abc")
-    output("<", len, ">\n")
+    io::out($"<{len}>\n")

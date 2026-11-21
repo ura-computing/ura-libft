@@ -5,6 +5,6 @@ fn isalnum(c char) bool: return isalpha(c) or isdigit(c)
 
 main():
     if isalnum('1'):
-        output("is alnum\n")
+        io::out("is alnum\n")
     else:
-        output("is not alnum\n")
+        io::out("is not alnum\n")
