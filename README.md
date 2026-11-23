@@ -6,7 +6,9 @@
 
 ```ura
 // ura.conf
-@dependency "ura-libft" "0.0.1" "https://github.com/ura-computing/ura-libft"
+@dep "libft":
+    @url "https://github.com/ura-computing/ura-libft"
+    @version "0.0.1"
 ```
 
 ```ura
@@ -22,7 +24,7 @@ fn main() i32:
 ## Test it
 
 ```bash
-ura install
+ura deps install
 ura test
 ```
 
