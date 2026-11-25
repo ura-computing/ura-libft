@@ -76,10 +76,10 @@ fn itoa(n i32) char[]:
     return res
 
 fn putchar_fd(c char, fd i32):
-    write(fd, &c as char[], 1)
+    io::write(fd, &c, 1)
 
 fn putstr_fd(s char[], fd i32):
-    write(fd, s, strlen(s) as i64)
+    io::write(fd, s, strlen(s) as i64)
 
 fn putendl_fd(s char[], fd i32):
     putstr_fd(s, fd)
